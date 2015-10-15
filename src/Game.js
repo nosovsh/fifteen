@@ -1,4 +1,5 @@
 var React = require('react-native');
+var GameBoard = require('./GameBoard');
 
 var {
   AppRegistry,
@@ -12,6 +13,8 @@ var {
   TouchableOpacity
   } = React;
 
+var BOARD_SIZE = 4;
+
 
 var Game = React.createClass({
   render() {
@@ -24,6 +27,8 @@ var Game = React.createClass({
         </View>
 
         <View style={styles.mainArea}>
+          <GameBoard
+            boardSize={BOARD_SIZE}/>
         </View>
 
         <View style={styles.bottomArea}>
