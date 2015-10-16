@@ -29,8 +29,18 @@ var GameBoard = React.createClass({
     };
   },
 
+  onMoved: function (moveFrom, moveTo) {
+    var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.state.indexes, this.props.boardSize);
+    indexesMatrix[moveTo.y][moveTo.x] = indexesMatrix[moveFrom.y][moveFrom.x];
+    indexesMatrix[moveFrom.y][moveFrom.x] = null;
+    this.setState({
+      indexes: GameHelpers.getIndexesFromMatrix(indexesMatrix),
+      isWon: GameHelpers.isWon(GameHelpers.getIndexesFromMatrix(indexesMatrix))
+    })
+  },
+
   render: function () {
-    var indexesMatrix = GameHelpers.getMatrix(this.state.indexes, this.props.boardSize);
+    var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.state.indexes, this.props.boardSize);
     var cells = indexesMatrix.map((row, i) => {
       return row.map((index, j) => {
         var axis, direction, moveTo;
@@ -59,6 +69,7 @@ var GameBoard = React.createClass({
             direction={direction}
             size={CELL_SIZE}
             log={this.log}
+            onMoved={() => this.onMoved({x: j, y: i}, moveTo)}
           />
         ) : null
       })

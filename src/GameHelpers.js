@@ -6,7 +6,11 @@ var GameHelpers = {
 
   getOrderedIndexes: (size) => GameHelpers.getOrderedIndexesWithoutEmpty(size).concat([null]),
 
-  getMatrix: (indexes, size) => _.chunk(indexes, size),
+  getMatrixFromIndxes: (indexes, size) => _.chunk(indexes, size),
+
+  getIndexesFromMatrix: (indexes) => _.flatten(indexes),
+
+  isWon: (indexes, size) => _.isEqual(indexes, GameHelpers.getOrderedIndexes(size)),
 };
 
 module.exports = GameHelpers;
