@@ -27,7 +27,7 @@ var Game = React.createClass({
 
   onNewGame: function () {
     this.setState({
-      indexes: GameHelpers.getOrderedIndexes(BOARD_SIZE),
+      indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
     });
   },
 
@@ -78,7 +78,6 @@ var Game = React.createClass({
     );
   }
 });
-
 
 var styles = StyleSheet.create({
   container: {
