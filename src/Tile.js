@@ -23,6 +23,7 @@ var Tile = React.createClass({
       value: new Animated.Value(this.props.coordinates[this.props.axis] * this.props.size)
     };
   },
+
   componentWillReceiveProps: function (nextProps) {
     this.setState({value: new Animated.Value(nextProps.coordinates[nextProps.axis] * nextProps.size)})
   },
@@ -44,7 +45,7 @@ var Tile = React.createClass({
       },
       onPanResponderRelease: (e:Object, gestureState:Object) => {
         var absDistance = this.props.direction * gestureState["d" + this.props.axis];
-        if (absDistance > this.props.size / 2) {
+        if (absDistance > this.props.size / 3) {
           Animated.timing(this.state.value, {
             toValue: this.props.direction * this.props.size,
             duration: 100,
