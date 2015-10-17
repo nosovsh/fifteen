@@ -1,5 +1,6 @@
 var React = require('react-native');
 var GameBoard = require('./GameBoard');
+var GameHelpers = require('./GameHelpers');
 
 var {
   AppRegistry,
@@ -17,6 +18,21 @@ var BOARD_SIZE = 4;
 
 
 var Game = React.createClass({
+  getInitialState: function () {
+    return {
+      indexes: GameHelpers.getOrderedIndexes(BOARD_SIZE),
+    };
+  },
+
+  onMoved: function (moveFrom, moveTo) {
+    var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.state.indexes, BOARD_SIZE);
+    indexesMatrix[moveTo.y][moveTo.x] = indexesMatrix[moveFrom.y][moveFrom.x];
+    indexesMatrix[moveFrom.y][moveFrom.x] = null;
+    this.setState({
+      indexes: GameHelpers.getIndexesFromMatrix(indexesMatrix)
+    })
+  },
+
   render() {
     return (
       <View  style={styles.container}>
@@ -28,7 +44,9 @@ var Game = React.createClass({
 
         <View style={styles.mainArea}>
           <GameBoard
-            boardSize={BOARD_SIZE}/>
+            boardSize={BOARD_SIZE}
+            indexes={this.state.indexes}
+            onMoved={this.onMoved}/>
         </View>
 
         <View style={styles.bottomArea}>
