@@ -1,6 +1,7 @@
 var React = require('react-native');
 var GameBoard = require('./GameBoard');
 var GameHelpers = require('./GameHelpers');
+var Modal = require('./Modal');
 
 var {
   AppRegistry,
@@ -20,7 +21,7 @@ var BOARD_SIZE = 4;
 var Game = React.createClass({
   getInitialState: function () {
     return {
-      indexes: GameHelpers.getOrderedIndexes(BOARD_SIZE),
+      indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
     };
   },
 
@@ -59,12 +60,25 @@ var Game = React.createClass({
           <TouchableOpacity onPress={this.onNewGame}>
             <Text style={styles.help}>Give up?</Text>
           </TouchableOpacity>
-
         </View>
+
+        <Modal isOpen={GameHelpers.isWon(this.state.indexes, BOARD_SIZE)}>
+          <View style={styles.wonDialog}>
+            <Text style={styles.header}>Hooray!</Text>
+            <Text style={styles.header2}>Once again?</Text>
+            <TouchableOpacity onPress={this.onNewGame}>
+              <View style={styles.buttonWrapper}>
+                <Text style={styles.button}>Play again</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
       </View>
     );
   }
 });
+
 
 var styles = StyleSheet.create({
   container: {
@@ -99,7 +113,24 @@ var styles = StyleSheet.create({
   },
   help: {
     opacity: 0.7,
-  }
+  },
+  wonDialog: {
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+  },
+  buttonWrapper: {
+    backgroundColor: '#FF3366',
+    height: 55,
+    justifyContent: 'center',
+        marginTop: 30,
+  },
+  button: {
+    //flex: 1,
+    //height: 55,
+    fontSize: 15,
+    textAlign: 'center',
+    color: "#FFFFFF",
+  },
 });
 
 module.exports = Game;
