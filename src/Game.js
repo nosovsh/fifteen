@@ -24,6 +24,12 @@ var Game = React.createClass({
     };
   },
 
+  onNewGame: function () {
+    this.setState({
+      indexes: GameHelpers.getOrderedIndexes(BOARD_SIZE),
+    });
+  },
+
   onMoved: function (moveFrom, moveTo) {
     var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.state.indexes, BOARD_SIZE);
     indexesMatrix[moveTo.y][moveTo.x] = indexesMatrix[moveFrom.y][moveFrom.x];
@@ -50,7 +56,7 @@ var Game = React.createClass({
         </View>
 
         <View style={styles.bottomArea}>
-          <TouchableOpacity onPress={this.newGame}>
+          <TouchableOpacity onPress={this.onNewGame}>
             <Text style={styles.help}>Give up?</Text>
           </TouchableOpacity>
 
