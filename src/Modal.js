@@ -17,6 +17,7 @@ var Modal = React.createClass({
   getInitialState: function () {
     return {
       position: new Animated.Value(this.props.isOpen ? 0 : screen.height),
+      visible: this.props.isOpen
     }
   },
 
@@ -32,12 +33,14 @@ var Modal = React.createClass({
    * Open animation for the modal, will move up
    */
   animateOpen: function () {
-    Animated.spring(
-      this.state.position, {
-        toValue: 0,
-        friction: 8
-      }
-    ).start();
+    this.setState({visible: true}, () => {
+      Animated.spring(
+        this.state.position, {
+          toValue: 0,
+          friction: 8
+        }
+      ).start();
+    })
   },
 
   /*
@@ -50,10 +53,13 @@ var Modal = React.createClass({
         toValue: screen.height,
         duration: 400
       }
-    ).start();
+    ).start(() => this.setState({visible: false}));
   },
 
   render: function () {
+    if (!this.state.visible) {
+      return null
+    }
     return (
       <View style={[styles.wrapper]}>
       { this.props.isOpen ? <View style={[styles.backdrop]}></View> : null}
@@ -62,9 +68,9 @@ var Modal = React.createClass({
         </Animated.View>
       </View>
     )
+
   }
 });
-
 
 var styles = StyleSheet.create({
   wrapper: {
@@ -74,6 +80,7 @@ var styles = StyleSheet.create({
     height: screen.height,
     width: screen.width,
     justifyContent: 'center',
+    backgroundColor: "transparent",
   },
   modal: {
     backgroundColor: "white",
