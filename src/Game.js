@@ -58,7 +58,7 @@ var Game = React.createClass({
 
         <View style={styles.bottomArea}>
           <TouchableOpacity onPress={this.onNewGame}>
-            <Text style={styles.help}>Give up?</Text>
+            <Text style={styles.help}>Start from scratch?</Text>
           </TouchableOpacity>
         </View>
 
@@ -121,7 +121,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF3366',
     height: 55,
     justifyContent: 'center',
-        marginTop: 30,
+    marginTop: 30,
   },
   button: {
     //flex: 1,

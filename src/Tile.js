@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Dot = require('./Dot');
 
 var {
   AppRegistry,
@@ -16,6 +17,7 @@ var Tile = React.createClass({
     axis: React.PropTypes.string.isRequired,
     direction: React.PropTypes.number.isRequired,
     size: React.PropTypes.number.isRequired,
+    isPlacedCorrectly: React.PropTypes.bool.isRequired,
   },
 
   getInitialState: function () {
@@ -79,6 +81,7 @@ var Tile = React.createClass({
         style={this.getStyle()}
         {...this._panResponder.panHandlers}>
         <Text style={styles.text}>{ this.props.index }</Text>
+        <Dot isPlacedCorrectly={this.props.isPlacedCorrectly}/>
       </Animated.View>
     );
   }
@@ -96,6 +99,12 @@ var styles = StyleSheet.create({
   },
   text: {
     color: '#FFFFFF'
+  },
+  dot: {
+    backgroundColor: '#FF3366',
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   }
 });
 

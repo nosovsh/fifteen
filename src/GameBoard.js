@@ -26,6 +26,7 @@ var GameBoard = React.createClass({
 
   render: function () {
     var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.props.indexes, this.props.boardSize);
+    var orderedIndexesMatrix = GameHelpers.getMatrixFromIndxes(GameHelpers.getOrderedIndexes(this.props.boardSize), this.props.boardSize);
     var tiles = _.flatten(indexesMatrix.map((row, i) => {
       return row.map((index, j) => {
         var axis, direction, moveTo;
@@ -54,6 +55,7 @@ var GameBoard = React.createClass({
             direction={direction}
             size={CELL_SIZE}
             onMoved={() => this.props.onMoved({x: j, y: i}, moveTo)}
+            isPlacedCorrectly={orderedIndexesMatrix[i][j] === index}
             key={index}
           />
         ) : null
