@@ -85,12 +85,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
   },
   headerArea: {
-    height: 200,
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
   mainArea: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -100,7 +99,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    fontSize: 25,
+    fontSize: 35,
     fontWeight: '200',
     textAlign: 'center',
     marginBottom: 15,
@@ -124,8 +123,6 @@ var styles = StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    //flex: 1,
-    //height: 55,
     fontSize: 15,
     textAlign: 'center',
     color: "#FFFFFF",

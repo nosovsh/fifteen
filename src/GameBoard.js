@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Dimensions = require('Dimensions');
 var GameHelpers = require('./GameHelpers');
 var Tile = require('./Tile');
 var _ = require("lodash");
@@ -15,7 +16,7 @@ var {
   TouchableOpacity
   } = React;
 
-var CELL_SIZE = 60;
+var deviceWidth = Dimensions.get('window').width;
 
 
 var GameBoard = React.createClass({
@@ -53,7 +54,7 @@ var GameBoard = React.createClass({
             coordinates={{x: j, y: i}}
             axis={axis}
             direction={direction}
-            size={CELL_SIZE}
+            size={(deviceWidth - 20) / this.props.boardSize}
             onMoved={() => this.props.onMoved({x: j, y: i}, moveTo)}
             isPlacedCorrectly={orderedIndexesMatrix[i][j] === index}
             key={index}
@@ -65,8 +66,8 @@ var GameBoard = React.createClass({
     return (
       <View style={
         [styles.board, {
-          width: this.props.boardSize * CELL_SIZE + 2,
-          height: this.props.boardSize * CELL_SIZE + 2,
+          width: deviceWidth - 20,
+          height: deviceWidth - 20,
         }]}>
         {tiles}
       </View>
@@ -76,7 +77,7 @@ var GameBoard = React.createClass({
 
 var styles = StyleSheet.create({
   board: {
-    backgroundColor: '#F4F4F4'
+    backgroundColor: '#F4F4F4',
   }
 });
 
