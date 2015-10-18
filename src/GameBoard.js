@@ -22,7 +22,8 @@ var deviceWidth = Dimensions.get('window').width;
 var GameBoard = React.createClass({
   propTypes: {
     boardSize: React.PropTypes.number.isRequired,
-    indexes: React.PropTypes.array.isRequired
+    indexes: React.PropTypes.array.isRequired,
+    tilesVisible: React.PropTypes.bool.isRequired,
   },
 
   render: function () {
@@ -58,6 +59,7 @@ var GameBoard = React.createClass({
             onMoved={() => this.props.onMoved({x: j, y: i}, moveTo)}
             isPlacedCorrectly={orderedIndexesMatrix[i][j] === index}
             key={index}
+            visible={this.props.tilesVisible}
           />
         ) : null
       })

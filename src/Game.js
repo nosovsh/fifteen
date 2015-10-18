@@ -23,13 +23,19 @@ var Game = React.createClass({
   getInitialState: function () {
     return {
       indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
+      tilesVisible: false
     };
   },
 
   onNewGame: function () {
     this.setState({
-      indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
+      tilesVisible: false,
     });
+    setTimeout(() => {
+      this.setState({
+        indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE)
+      }, () => this.setState({tilesVisible: true}))
+    }, 200 + 20 * 15); // animation length + delay of each tile
   },
 
   onMoved: function (moveFrom, moveTo) {
@@ -39,6 +45,10 @@ var Game = React.createClass({
     this.setState({
       indexes: GameHelpers.getIndexesFromMatrix(indexesMatrix)
     })
+  },
+
+  componentDidMount: function () {
+    this.setState({tilesVisible: true})
   },
 
   render() {
@@ -54,13 +64,16 @@ var Game = React.createClass({
           <GameBoard
             boardSize={BOARD_SIZE}
             indexes={this.state.indexes}
-            onMoved={this.onMoved}/>
+            onMoved={this.onMoved}
+            tilesVisible={this.state.tilesVisible}/>
         </View>
 
         <View style={styles.bottomArea}>
-          <TouchableOpacity onPress={this.onNewGame}>
-            <FontedText style={styles.help}>Start from scratch?</FontedText>
-          </TouchableOpacity>
+          { this.state.tilesVisible ? (
+            <TouchableOpacity onPress={this.onNewGame}>
+              <FontedText style={styles.help}>Start from scratch?</FontedText>
+            </TouchableOpacity>
+          ) : null }
         </View>
 
         <Modal isOpen={GameHelpers.isWon(this.state.indexes, BOARD_SIZE)}>

@@ -19,16 +19,41 @@ var Tile = React.createClass({
     direction: React.PropTypes.number.isRequired,
     size: React.PropTypes.number.isRequired,
     isPlacedCorrectly: React.PropTypes.bool.isRequired,
+    visible: React.PropTypes.bool.isRequired,
+    index: React.PropTypes.number.isRequired,
   },
 
   getInitialState: function () {
     return {
-      value: new Animated.Value(this.props.coordinates[this.props.axis] * this.props.size)
+      value: new Animated.Value(this.props.coordinates[this.props.axis] * this.props.size),
+      scale: new Animated.Value(this.props.visible ? 1 : 0.01)
     };
   },
 
   componentWillReceiveProps: function (nextProps) {
+    if (this.props.visible && !nextProps.visible) {
+      this.animateHide()
+    } else if (!this.props.visible && nextProps.visible) {
+      this.animateShow()
+    }
     this.setState({value: new Animated.Value(nextProps.coordinates[nextProps.axis] * nextProps.size)})
+  },
+
+
+  animateHide: function () {
+    Animated.timing(this.state.scale, {
+      toValue: 0.01,
+      duration: 200,
+      delay: this.props.index * 20
+    }).start();
+  },
+
+  animateShow: function () {
+    Animated.timing(this.state.scale, {
+      toValue: 1,
+      duration: 200,
+      delay: this.props.index * 20
+    }).start();
   },
 
   componentWillMount: function () {
@@ -72,6 +97,9 @@ var Tile = React.createClass({
         left: this.props.axis === 'x' ? this.state.value : this.props.coordinates.x * this.props.size,
         width: this.props.size,
         height: this.props.size,
+        transform: [
+          {scale: this.state.scale}
+        ],
       }
 
     ];
