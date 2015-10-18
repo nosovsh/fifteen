@@ -1,5 +1,6 @@
 var React = require('react-native');
 var Dot = require('./Dot');
+var FontedText = require('./FontedText');
 
 var {
   AppRegistry,
@@ -82,7 +83,7 @@ var Tile = React.createClass({
         {...this._panResponder.panHandlers}>
           <View style={styles.row}/>
           <View style={styles.row}>
-            <Text style={styles.text}>{ this.props.index }</Text>
+            <FontedText style={styles.text}>{ this.props.index }</FontedText>
           </View>
           <View style={styles.row}>
             <Dot isPlacedCorrectly={this.props.isPlacedCorrectly}/>

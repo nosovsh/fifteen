@@ -2,6 +2,7 @@ var React = require('react-native');
 var GameBoard = require('./GameBoard');
 var GameHelpers = require('./GameHelpers');
 var Modal = require('./Modal');
+var FontedText = require('./FontedText');
 
 var {
   AppRegistry,
@@ -45,8 +46,8 @@ var Game = React.createClass({
       <View  style={styles.container}>
 
         <View style={styles.headerArea}>
-          <Text style={styles.header}>The fifteen game</Text>
-          <Text style={styles.header2}>Slide tiles to put them in order.</Text>
+          <FontedText style={styles.header}>The fifteen game</FontedText>
+          <FontedText style={styles.header2}>Slide tiles to put them in order.</FontedText>
         </View>
 
         <View style={styles.mainArea}>
@@ -58,17 +59,17 @@ var Game = React.createClass({
 
         <View style={styles.bottomArea}>
           <TouchableOpacity onPress={this.onNewGame}>
-            <Text style={styles.help}>Start from scratch?</Text>
+            <FontedText style={styles.help}>Start from scratch?</FontedText>
           </TouchableOpacity>
         </View>
 
         <Modal isOpen={GameHelpers.isWon(this.state.indexes, BOARD_SIZE)}>
           <View style={styles.wonDialog}>
-            <Text style={styles.header}>Hooray!</Text>
-            <Text style={styles.header2}>Once again?</Text>
+            <FontedText style={styles.header}>Hooray!</FontedText>
+            <FontedText style={styles.header2}>Once again?</FontedText>
             <TouchableOpacity onPress={this.onNewGame}>
               <View style={styles.buttonWrapper}>
-                <Text style={styles.button}>Play again</Text>
+                <FontedText style={styles.button}>Play again</FontedText>
               </View>
             </TouchableOpacity>
           </View>
