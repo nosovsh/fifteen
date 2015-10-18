@@ -1,6 +1,7 @@
 var React = require('react-native');
 var GameHelpers = require('./GameHelpers');
 var Tile = require('./Tile');
+var _ = require("lodash");
 
 var {
   AppRegistry,
@@ -25,7 +26,7 @@ var GameBoard = React.createClass({
 
   render: function () {
     var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.props.indexes, this.props.boardSize);
-    var cells = indexesMatrix.map((row, i) => {
+    var tiles = _.flatten(indexesMatrix.map((row, i) => {
       return row.map((index, j) => {
         var axis, direction, moveTo;
         if (i > 0 && indexesMatrix[i - 1][j] === null) {
@@ -52,12 +53,12 @@ var GameBoard = React.createClass({
             axis={axis}
             direction={direction}
             size={CELL_SIZE}
-            log={this.log}
             onMoved={() => this.props.onMoved({x: j, y: i}, moveTo)}
+            key={index}
           />
         ) : null
       })
-    });
+    }));
 
     return (
       <View style={
@@ -65,7 +66,7 @@ var GameBoard = React.createClass({
           width: this.props.boardSize * CELL_SIZE + 2,
           height: this.props.boardSize * CELL_SIZE + 2,
         }]}>
-        {cells}
+        {tiles}
       </View>
     );
   }
