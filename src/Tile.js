@@ -80,8 +80,13 @@ var Tile = React.createClass({
       <Animated.View
         style={this.getStyle()}
         {...this._panResponder.panHandlers}>
-        <Text style={styles.text}>{ this.props.index }</Text>
-        <Dot isPlacedCorrectly={this.props.isPlacedCorrectly}/>
+          <View style={styles.row}/>
+          <View style={styles.row}>
+            <Text style={styles.text}>{ this.props.index }</Text>
+          </View>
+          <View style={styles.row}>
+            <Dot isPlacedCorrectly={this.props.isPlacedCorrectly}/>
+          </View>
       </Animated.View>
     );
   }
@@ -100,11 +105,9 @@ var styles = StyleSheet.create({
   text: {
     color: '#FFFFFF'
   },
-  dot: {
-    backgroundColor: '#FF3366',
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+  row: {
+    flex: 1,
+    flexDirection: 'row',
   }
 });
 
