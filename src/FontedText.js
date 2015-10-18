@@ -12,7 +12,6 @@ var FontedText = React.createClass({
     children: React.PropTypes.node,
   },
   render: function () {
-    console.log(Platform.OS)
     var {style, ...props} = this.props;
     return (
       <Text style={[Platform.OS === "android" && styles.android, style]} {...props}>
