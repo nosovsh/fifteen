@@ -7,4 +7,6 @@ Try it at [RNPlay](https://rnplay.org/apps/T4ykqw)
 
 Also you can build iOS version from sources
 
+<img src="https://lh3.googleusercontent.com/UsXW4ljwJ0lvGccsEl-3fXF2WdG5RBVsawlIyDP0xX1JlKBWYx3fMk_QiMRgdJSPRSE=h900-rw" width="450"/>
+
 
