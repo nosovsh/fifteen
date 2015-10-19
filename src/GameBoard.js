@@ -2,18 +2,11 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 var GameHelpers = require('./GameHelpers');
 var Tile = require('./Tile');
-var _ = require("lodash");
+var _ = require('lodash');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
-  Animated,
-  PanResponder,
-  Text,
-  ScrollView,
-  addons,
-  TouchableOpacity
   } = React;
 
 var deviceWidth = Dimensions.get('window').width;
@@ -24,14 +17,17 @@ var GameBoard = React.createClass({
     boardSize: React.PropTypes.number.isRequired,
     indexes: React.PropTypes.array.isRequired,
     tilesVisible: React.PropTypes.bool.isRequired,
+    onMoved: React.PropTypes.func.isRequired,
   },
 
-  render: function () {
+  render: function() {
     var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.props.indexes, this.props.boardSize);
     var orderedIndexesMatrix = GameHelpers.getMatrixFromIndxes(GameHelpers.getOrderedIndexes(this.props.boardSize), this.props.boardSize);
     var tiles = _.flatten(indexesMatrix.map((row, i) => {
       return row.map((index, j) => {
-        var axis, direction, moveTo;
+        var axis;
+        var direction;
+        var moveTo;
         if (i > 0 && indexesMatrix[i - 1][j] === null) {
           axis = 'y';
           direction = -1;
@@ -61,8 +57,8 @@ var GameBoard = React.createClass({
             key={index}
             visible={this.props.tilesVisible}
           />
-        ) : null
-      })
+        ) : null;
+      });
     }));
 
     return (
@@ -74,13 +70,13 @@ var GameBoard = React.createClass({
         {tiles}
       </View>
     );
-  }
+  },
 });
 
 var styles = StyleSheet.create({
   board: {
     backgroundColor: '#F4F4F4',
-  }
+  },
 });
 
 module.exports = GameBoard;

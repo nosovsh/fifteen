@@ -3,12 +3,10 @@ var Dot = require('./Dot');
 var FontedText = require('./FontedText');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
   Animated,
   PanResponder,
-  Text
   } = React;
 
 
@@ -21,75 +19,58 @@ var Tile = React.createClass({
     isPlacedCorrectly: React.PropTypes.bool.isRequired,
     visible: React.PropTypes.bool.isRequired,
     index: React.PropTypes.number.isRequired,
+    onMoved: React.PropTypes.func.isRequired,
   },
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       value: new Animated.Value(this.props.coordinates[this.props.axis] * this.props.size),
-      scale: new Animated.Value(this.props.visible ? 1 : 0.01)
+      scale: new Animated.Value(this.props.visible ? 1 : 0.01),
     };
   },
 
-  componentWillReceiveProps: function (nextProps) {
-    if (this.props.visible && !nextProps.visible) {
-      this.animateHide()
-    } else if (!this.props.visible && nextProps.visible) {
-      this.animateShow()
-    }
-    this.setState({value: new Animated.Value(nextProps.coordinates[nextProps.axis] * nextProps.size)})
-  },
-
-
-  animateHide: function () {
-    Animated.timing(this.state.scale, {
-      toValue: 0.01,
-      duration: 200,
-      delay: this.props.index * 20
-    }).start();
-  },
-
-  animateShow: function () {
-    Animated.timing(this.state.scale, {
-      toValue: 1,
-      duration: 200,
-      delay: this.props.index * 20
-    }).start();
-  },
-
-  componentWillMount: function () {
+  componentWillMount: function() {
     this.lastDistance = 0;
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponderCapture: (e:Object, gestureState:Object) => this.props.axis && this.props.direction,
-      onPanResponderGrant: (e:Object, gestureState:Object) => {
+      onMoveShouldSetPanResponderCapture: (e:Object, gestureState:Object) => this.props.axis && this.props.direction, // eslint-disable-line no-unused-vars
+      onPanResponderGrant: (e:Object, gestureState:Object) => { // eslint-disable-line no-unused-vars
         this.state.value.setOffset(this.state.value.__getValue());
         this.state.value.setValue(0);
       },
       onPanResponderMove: (e:Object, gestureState:Object) => {
-        var absDistance = this.props.direction * gestureState["d" + this.props.axis];
-        if (0 < absDistance && absDistance < this.props.size) {
-          this.state.value.setValue(gestureState["d" + this.props.axis])
-          this.lastDistance = gestureState["d" + this.props.axis];
+        var absDistance = this.props.direction * gestureState['d' + this.props.axis];
+        if (absDistance > 0 && absDistance < this.props.size) {
+          this.state.value.setValue(gestureState['d' + this.props.axis]);
+          this.lastDistance = gestureState['d' + this.props.axis];
         }
       },
       onPanResponderRelease: (e:Object, gestureState:Object) => {
-        var absDistance = this.props.direction * gestureState["d" + this.props.axis];
+        var absDistance = this.props.direction * gestureState['d' + this.props.axis];
         if (absDistance > this.props.size / 3) {
           Animated.timing(this.state.value, {
             toValue: this.props.direction * this.props.size,
             duration: 100,
           }).start(this.props.onMoved);
-          //this.state.value.flattenOffset()
-
+          // this.state.value.flattenOffset()
         } else {
           Animated.spring(this.state.value, {
-            toValue: 0
+            toValue: 0,
           }).start();
         }
-      }
-
+      },
     });
   },
-  getStyle: function () {
+
+  componentWillReceiveProps: function(nextProps) {
+    if (this.props.visible && !nextProps.visible) {
+      this.animateHide();
+    } else if (!this.props.visible && nextProps.visible) {
+      this.animateShow();
+    }
+    this.setState({value: new Animated.Value(nextProps.coordinates[nextProps.axis] * nextProps.size)});
+  },
+
+  getStyle: function() {
     return [
       styles.tile,
       {
@@ -98,13 +79,29 @@ var Tile = React.createClass({
         width: this.props.size,
         height: this.props.size,
         transform: [
-          {scale: this.state.scale}
+          {scale: this.state.scale},
         ],
-      }
-
+      },
     ];
   },
-  render: function () {
+
+  animateHide: function() {
+    Animated.timing(this.state.scale, {
+      toValue: 0.01,
+      duration: 200,
+      delay: this.props.index * 20,
+    }).start();
+  },
+
+  animateShow: function() {
+    Animated.timing(this.state.scale, {
+      toValue: 1,
+      duration: 200,
+      delay: this.props.index * 20,
+    }).start();
+  },
+
+  render: function() {
     return (
       <Animated.View
         style={this.getStyle()}
@@ -118,7 +115,7 @@ var Tile = React.createClass({
         </View>
       </Animated.View>
     );
-  }
+  },
 });
 
 var styles = StyleSheet.create({
@@ -142,7 +139,7 @@ var styles = StyleSheet.create({
   },
   dotRow: {
     alignItems: 'flex-start',
-  }
+  },
 });
 
 module.exports = Tile;

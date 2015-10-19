@@ -1,4 +1,4 @@
-var _ = require("lodash");
+var _ = require('lodash');
 
 
 var GameHelpers = {
@@ -12,11 +12,11 @@ var GameHelpers = {
 
   isWon: (indexes, size) => _.isEqual(indexes, GameHelpers.getOrderedIndexes(size)),
 
-  sumInversions: function (indexes) {
+  sumInversions: function(indexes) {
     var inv = 0;
-    for(var i = 0; i < indexes.length - 1; i++) {
-      for(var j = i + 1; j < indexes.length; j++) {
-        if(indexes[i] > indexes[j]) {
+    for (var i = 0; i < indexes.length - 1; i++) {
+      for (var j = i + 1; j < indexes.length; j++) {
+        if (indexes[i] > indexes[j]) {
           inv++;
         }
       }
@@ -25,10 +25,11 @@ var GameHelpers = {
   },
 
   getShuffledIndexes: function(size) {
+    var shuffledIndexes;
     do {
-      var shuffledIndexes = _.shuffle(GameHelpers.getOrderedIndexesWithoutEmpty(size)).concat([null])
-    } while(!(this.sumInversions(shuffledIndexes) % 2));
-    return shuffledIndexes
+      shuffledIndexes = _.shuffle(GameHelpers.getOrderedIndexesWithoutEmpty(size)).concat([null]);
+    } while (!(this.sumInversions(shuffledIndexes) % 2));
+    return shuffledIndexes;
   },
 };
 

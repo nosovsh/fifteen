@@ -3,10 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "lint": "eslint ."
   },
   "dependencies": {
     "lodash": "^3.10.1",
     "react-native": "^0.12.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-config-airbnb-es5": "^1.0.8",
+    "eslint-plugin-react": "^3.4.2"
   }
 }

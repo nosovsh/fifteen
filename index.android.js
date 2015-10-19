@@ -1,10 +1,7 @@
 var React = require('react-native');
 var {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
+  } = React;
 
 var Game = require('./src/Game');
 
@@ -13,10 +10,7 @@ var Fifteen = React.createClass({
     return (
       <Game/>
     );
-  }
-});
-
-var styles = StyleSheet.create({
+  },
 });
 
 AppRegistry.registerComponent('Fifteen', () => Fifteen);

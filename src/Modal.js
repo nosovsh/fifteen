@@ -4,21 +4,23 @@ var Dimensions = require('Dimensions');
 var screen = Dimensions.get('window');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
   Animated,
-  PanResponder,
-  Text
   } = React;
 
 
 var Modal = React.createClass({
-  getInitialState: function () {
+  propTypes: {
+    children: React.PropTypes.node.isRequired,
+    isOpen: React.PropTypes.bool.isRequired,
+  },
+
+  getInitialState: function() {
     return {
       position: new Animated.Value(this.props.isOpen ? 0 : screen.height),
-      visible: this.props.isOpen
-    }
+      visible: this.props.isOpen,
+    };
   },
 
   componentWillReceiveProps(nextProps) {
@@ -32,69 +34,69 @@ var Modal = React.createClass({
   /*
    * Open animation for the modal, will move up
    */
-  animateOpen: function () {
+  animateOpen: function() {
     this.setState({visible: true}, () => {
       Animated.spring(
         this.state.position, {
           toValue: 0,
-          friction: 8
+          friction: 8,
         }
       ).start();
-    })
+    });
   },
 
   /*
    * Close animation for the modal, will move down
    */
-  animateClose: function () {
+  animateClose: function() {
     Animated.timing(
       this.state.position,
       {
         toValue: screen.height,
-        duration: 400
+        duration: 400,
       }
     ).start(() => this.setState({visible: false}));
   },
 
-  render: function () {
+  render: function() {
     if (!this.state.visible) {
-      return null
+      return null;
     }
     return (
       <View style={[styles.wrapper]}>
-      { this.props.isOpen ? <View style={[styles.backdrop]}></View> : null}
+      { this.props.isOpen ? <View style={[styles.backdrop]}/> : null}
         <Animated.View style={[styles.modal, {transform: [{translateY: this.state.position}, {translateX: 0}]}]}>
           { this.props.children }
         </Animated.View>
       </View>
-    )
-
-  }
+    );
+  },
 });
 
 var styles = StyleSheet.create({
   wrapper: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     height: screen.height,
     width: screen.width,
     justifyContent: 'center',
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   modal: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     margin: 20,
   },
   backdrop: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
     opacity: 0.5,
-    backgroundColor: "#000000",
-  }
+    backgroundColor: '#000000',
+  },
 
 });
+
 module.exports = Modal;

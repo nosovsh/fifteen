@@ -5,55 +5,49 @@ var Modal = require('./Modal');
 var FontedText = require('./FontedText');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
-  Animated,
-  PanResponder,
-  Text,
-  ScrollView,
-  addons,
-  TouchableOpacity
+  TouchableOpacity,
   } = React;
 
 var BOARD_SIZE = 4;
 
 
 var Game = React.createClass({
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
-      tilesVisible: false
+      tilesVisible: false,
     };
   },
 
-  onNewGame: function () {
+  componentDidMount: function() {
+    this.setState({tilesVisible: true}); // eslint-disable-line react/no-did-mount-set-state
+  },
+
+  onNewGame: function() {
     this.setState({
       tilesVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE)
-      }, () => this.setState({tilesVisible: true}))
+        indexes: GameHelpers.getShuffledIndexes(BOARD_SIZE),
+      }, () => this.setState({tilesVisible: true}));
     }, 200 + 20 * 15); // animation length + delay of each tile
   },
 
-  onMoved: function (moveFrom, moveTo) {
+  onMoved: function(moveFrom, moveTo) {
     var indexesMatrix = GameHelpers.getMatrixFromIndxes(this.state.indexes, BOARD_SIZE);
     indexesMatrix[moveTo.y][moveTo.x] = indexesMatrix[moveFrom.y][moveFrom.x];
     indexesMatrix[moveFrom.y][moveFrom.x] = null;
     this.setState({
-      indexes: GameHelpers.getIndexesFromMatrix(indexesMatrix)
-    })
-  },
-
-  componentDidMount: function () {
-    this.setState({tilesVisible: true})
+      indexes: GameHelpers.getIndexesFromMatrix(indexesMatrix),
+    });
   },
 
   render() {
     return (
-      <View  style={styles.container}>
+      <View style={styles.container}>
 
         <View style={styles.headerArea}>
           <FontedText style={styles.header}>The fifteen game</FontedText>
@@ -90,7 +84,7 @@ var Game = React.createClass({
 
       </View>
     );
-  }
+  },
 });
 
 var styles = StyleSheet.create({
@@ -139,7 +133,7 @@ var styles = StyleSheet.create({
   button: {
     fontSize: 15,
     textAlign: 'center',
-    color: "#FFFFFF",
+    color: '#FFFFFF',
   },
 });
 
